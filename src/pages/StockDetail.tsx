@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../services/supabaseClient';
 import { calculateSMA, calculateRSI } from '../services/indicators';
@@ -59,7 +59,7 @@ export default function StockDetail() {
     : null;
   const isPositive = changePercent !== null && changePercent >= 0;
 
-  // â”€â”€ RSI gauge colour
+  // RSI gauge colour
   const rsiColor = latestRSI == null ? 'text-gray-400'
     : latestRSI < 30 ? 'text-emerald-400'
     : latestRSI > 70 ? 'text-red-400'
@@ -79,11 +79,11 @@ export default function StockDetail() {
   if (error || !stock) {
     return (
       <div className="min-h-screen bg-gray-950 flex flex-col items-center justify-center gap-4">
-        <p className="text-5xl">ðŸ˜•</p>
-        <p className="text-red-400 font-medium">{error ?? 'AÃ§Ã£o nÃ£o encontrada.'}</p>
+        <p className="text-5xl">😕</p>
+        <p className="text-red-400 font-medium">{error ?? 'Ação não encontrada.'}</p>
         <button onClick={() => navigate('/dashboard')}
           className="text-sm text-blue-400 hover:text-blue-300 border border-blue-900 rounded-lg px-4 py-2 transition-colors">
-          â† Voltar ao Dashboard
+          ← Voltar ao Dashboard
         </button>
       </div>
     );
@@ -91,11 +91,11 @@ export default function StockDetail() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      {/* â”€â”€ Navbar â”€â”€ */}
+      {/* Navbar */}
       <header className="sticky top-0 z-20 bg-gray-950/80 backdrop-blur border-b border-gray-800/60 px-6 py-3 flex items-center gap-3">
         <button onClick={() => navigate('/dashboard')}
           className="text-gray-500 hover:text-white transition-colors text-sm flex items-center gap-1">
-          â† Dashboard
+          ← Dashboard
         </button>
         <span className="text-gray-800">|</span>
         <span className="font-extrabold text-white tracking-tight">{stock.symbol}</span>
@@ -109,7 +109,7 @@ export default function StockDetail() {
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 space-y-5">
 
-        {/* â”€â”€ Hero price â”€â”€ */}
+        {/* Hero price */}
         {latestData && (
           <div className="flex flex-col sm:flex-row sm:items-end gap-4 bg-gray-900 border border-gray-800 rounded-2xl p-5">
             <div>
@@ -118,7 +118,7 @@ export default function StockDetail() {
               </p>
               {changePercent !== null && (
                 <p className={`mt-1 text-sm font-semibold flex items-center gap-1 ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {isPositive ? 'â–²' : 'â–¼'} {Math.abs(changePercent).toFixed(2)}%
+                  {isPositive ? '▲' : '▼'} {Math.abs(changePercent).toFixed(2)}%
                   <span className="text-gray-600 font-normal text-xs">hoje ({latestData.date})</span>
                 </p>
               )}
@@ -129,7 +129,7 @@ export default function StockDetail() {
                 <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold border border-gray-700 bg-gray-800 ${rsiColor}`}>
                   RSI {latestRSI.toFixed(1)}
                   <span className="text-gray-500 font-normal">
-                    {latestRSI < 30 ? 'Â· Sobrevendido' : latestRSI > 70 ? 'Â· Sobrecomprado' : 'Â· Neutro'}
+                    {latestRSI < 30 ? '· Sobrevendido' : latestRSI > 70 ? '· Sobrecomprado' : '· Neutro'}
                   </span>
                 </span>
               )}
@@ -137,13 +137,13 @@ export default function StockDetail() {
           </div>
         )}
 
-        {/* â”€â”€ KPI grid â”€â”€ */}
+        {/* KPI grid */}
         {latestData && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
               { label: 'Abertura',  value: `$${latestData.open.toFixed(2)}`,  sub: null },
-              { label: 'MÃ¡xima',    value: `$${latestData.high.toFixed(2)}`,  sub: null },
-              { label: 'MÃ­nima',    value: `$${latestData.low.toFixed(2)}`,   sub: null },
+              { label: 'Máxima',    value: `$${latestData.high.toFixed(2)}`,  sub: null },
+              { label: 'Mínima',    value: `$${latestData.low.toFixed(2)}`,   sub: null },
               { label: 'Volume',    value: `${(latestData.volume / 1_000_000).toFixed(2)}M`, sub: 'negociado' },
             ].map(kpi => (
               <div key={kpi.label} className="bg-gray-900 border border-gray-800 rounded-xl px-4 py-3">
@@ -155,25 +155,25 @@ export default function StockDetail() {
           </div>
         )}
 
-        {/* â”€â”€ Chart â”€â”€ */}
+        {/* Chart */}
         <PriceChart data={chartData} symbol={stock.symbol} />
 
-        {/* â”€â”€ Signals table â”€â”€ */}
+        {/* Signals table */}
         <div>
           <h2 className="text-base font-bold mb-3 text-gray-300 uppercase tracking-wider">
-            HistÃ³rico de Sinais
+            Histórico de Sinais
           </h2>
           {signals.length === 0 ? (
             <div className="text-center py-12 bg-gray-900 border border-gray-800 rounded-2xl">
-              <p className="text-3xl mb-2">ðŸ“­</p>
-              <p className="text-gray-500 text-sm">Nenhum sinal gerado ainda para esta aÃ§Ã£o.</p>
+              <p className="text-3xl mb-2">🔭</p>
+              <p className="text-gray-500 text-sm">Nenhum sinal gerado ainda para esta ação.</p>
             </div>
           ) : (
             <div className="overflow-x-auto rounded-2xl border border-gray-800">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-gray-900 text-gray-500 text-[11px] uppercase tracking-wider">
-                    {['Tipo','PreÃ§o','Indicador','RSI','SMA 20','SMA 50','Data'].map(h => (
+                    {['Tipo','Preço','Indicador','RSI','SMA 20','SMA 50','Data'].map(h => (
                       <th key={h} className={`px-4 py-3 font-semibold ${h === 'Tipo' || h === 'Indicador' || h === 'Data' ? 'text-left' : 'text-right'}`}>{h}</th>
                     ))}
                   </tr>
@@ -189,16 +189,16 @@ export default function StockDetail() {
                         sig.rsi_value != null && sig.rsi_value < 30 ? 'text-emerald-400'
                         : sig.rsi_value != null && sig.rsi_value > 70 ? 'text-red-400'
                         : 'text-gray-400'}`}>
-                        {sig.rsi_value != null ? sig.rsi_value.toFixed(1) : 'â€”'}
+                        {sig.rsi_value != null ? sig.rsi_value.toFixed(1) : '—'}
                       </td>
                       <td className="px-4 py-3 text-right font-mono text-gray-400 text-xs">
-                        {sig.sma20 != null ? `$${sig.sma20.toFixed(2)}` : 'â€”'}
+                        {sig.sma20 != null ? `$${sig.sma20.toFixed(2)}` : '—'}
                       </td>
                       <td className="px-4 py-3 text-right font-mono text-gray-400 text-xs">
-                        {sig.sma50 != null ? `$${sig.sma50.toFixed(2)}` : 'â€”'}
+                        {sig.sma50 != null ? `$${sig.sma50.toFixed(2)}` : '—'}
                       </td>
                       <td className="px-4 py-3 text-gray-500 text-xs">
-                        {sig.created_at ? new Date(sig.created_at).toLocaleString('pt-BR') : 'â€”'}
+                        {sig.created_at ? new Date(sig.created_at).toLocaleString('pt-BR') : '—'}
                       </td>
                     </tr>
                   ))}

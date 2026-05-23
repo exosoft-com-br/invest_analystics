@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../services/supabaseClient';
 import { signOut } from '../services/auth';
 import type { Stock, MarketData, Signal } from '../types';
@@ -76,10 +76,10 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
-      {/* â”€â”€ Navbar â”€â”€ */}
+      {/* Navbar */}
       <header className="sticky top-0 z-20 bg-gray-950/80 backdrop-blur border-b border-gray-800/60 px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-xl font-extrabold text-gradient">ðŸ“ˆ InvestAnalytics</span>
+          <span className="text-xl font-extrabold text-gradient">📈 InvestAnalytics</span>
           <span className="hidden sm:block text-xs text-gray-600 border border-gray-800 rounded px-2 py-0.5">POC</span>
         </div>
         <div className="flex items-center gap-4">
@@ -88,7 +88,7 @@ export default function Dashboard() {
             disabled={loading}
             className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 disabled:opacity-40 text-xs font-medium text-gray-300 transition-colors border border-gray-700"
           >
-            <span className={loading ? 'animate-spin' : ''}>â†»</span>
+            <span className={loading ? 'animate-spin' : ''}>↻</span>
             Atualizar
           </button>
           <button onClick={handleSignOut} className="text-xs text-gray-500 hover:text-white transition-colors">
@@ -99,30 +99,30 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
 
-        {/* â”€â”€ Stats bar â”€â”€ */}
+        {/* Stats bar */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {[
-            { label: 'AÃ§Ãµes monitoradas', value: summaries.length, icon: 'ðŸ“Š', color: 'text-blue-400'    },
-            { label: 'Sinais BUY',         value: buyCount,          icon: 'â–²',   color: 'text-emerald-400'},
-            { label: 'Sinais SELL',        value: sellCount,         icon: 'â–¼',   color: 'text-red-400'   },
-            { label: 'Sem sinal',          value: summaries.length - buyCount - sellCount, icon: 'â€”', color: 'text-gray-400' },
+            { label: 'Ações monitoradas', value: summaries.length, icon: '📊', color: 'text-blue-400'    },
+            { label: 'Sinais BUY',         value: buyCount,          icon: '▲',   color: 'text-emerald-400'},
+            { label: 'Sinais SELL',        value: sellCount,         icon: '▼',   color: 'text-red-400'   },
+            { label: 'Sem sinal',          value: summaries.length - buyCount - sellCount, icon: '—', color: 'text-gray-400' },
           ].map(stat => (
             <div key={stat.label} className="bg-gray-900 border border-gray-800 rounded-2xl px-4 py-3">
               <p className="text-[11px] text-gray-500 uppercase tracking-wider mb-1">{stat.label}</p>
               <p className={`text-2xl font-extrabold font-mono animate-count ${stat.color}`}>
-                {loading ? 'â€”' : stat.value}
+                {loading ? '—' : stat.value}
               </p>
             </div>
           ))}
         </div>
 
-        {/* â”€â”€ Search + Sector filter â”€â”€ */}
+        {/* Search + Sector filter */}
         <div className="flex flex-col sm:flex-row gap-3">
           <input
             type="text"
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Buscar por sÃ­mbolo ou nomeâ€¦"
+            placeholder="Buscar por símbolo ou nome..."
             className="flex-1 px-4 py-2 rounded-xl bg-gray-900 border border-gray-800 text-white placeholder-gray-600 text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition"
           />
           <div className="flex gap-2 overflow-x-auto pb-1 sm:pb-0">
@@ -142,14 +142,14 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* â”€â”€ Error â”€â”€ */}
+        {/* Error */}
         {error && (
           <div className="rounded-xl bg-red-950/50 border border-red-800 text-red-300 px-4 py-3 text-sm">
-            âš  {error}
+            ⚠ {error}
           </div>
         )}
 
-        {/* â”€â”€ Skeletons â”€â”€ */}
+        {/* Skeletons */}
         {loading && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {Array.from({ length: 8 }).map((_, i) => (
@@ -158,7 +158,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* â”€â”€ Cards grid â”€â”€ */}
+        {/* Cards grid */}
         {!loading && filtered.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {filtered.map(({ stock, latestData, latestSignal, recentCloses }) => (
@@ -173,11 +173,11 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* â”€â”€ Empty state â”€â”€ */}
+        {/* Empty state */}
         {!loading && filtered.length === 0 && !error && (
           <div className="text-center py-24">
-            <p className="text-5xl mb-4">ðŸ”</p>
-            <p className="text-gray-400 text-lg font-semibold">Nenhuma aÃ§Ã£o encontrada</p>
+            <p className="text-5xl mb-4">🔍</p>
+            <p className="text-gray-400 text-lg font-semibold">Nenhuma ação encontrada</p>
             <p className="text-gray-600 text-sm mt-1">
               {summaries.length === 0
                 ? <>Execute <code className="bg-gray-800 px-1.5 py-0.5 rounded text-gray-300">npm run fetch-data</code> para popular o banco.</>
@@ -186,9 +186,9 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* â”€â”€ Footer â”€â”€ */}
+        {/* Footer */}
         <p className="text-center text-[11px] text-gray-700 pb-4">
-          Dados: Alpha Vantage Â· Banco: Supabase Â· POC â€” apenas fins educacionais
+          Dados: Alpha Vantage · Banco: Supabase · POC — apenas fins educacionais
         </p>
       </main>
     </div>
