@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 .env
+.env.google.example
+
+# OAuth setup docs with credentials
+GOOGLE_OAUTH_SETUP.md
 
 # Editor directories and files
 .vscode/*
